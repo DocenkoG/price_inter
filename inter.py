@@ -59,7 +59,9 @@ def convert2csv( cfgFName ):
     
     log.debug('Reading price ' + priceFName )
     sheet = sheetByName(fileName = priceFName, sheetName = sheetName)
-
+    if not sheet :
+        log.error("Нет листа "+sheetName+" в файле "+ priceFName)
+        return False
     out_cols, out_template = config_read(cfgFName, 'cols_out')
     in_cols,  in_cols_j    = config_read(cfgFName, 'cols_in')
     #brands,   discount     = config_read(cfgFName, 'discount')
@@ -156,8 +158,8 @@ def convert2csv( cfgFName ):
                     shablon = str(round(vvv1 * vvv2, 2))
                 recOut[outColName] = shablon.strip()
 
-            if recOut['код'].lower() in ('','model',"артикул") :       # Пустая строка
-                print (i, 'Пустая строка!!!')
+            if recOut['код'].lower() in ('','model',"артикул","sku") :       # Пустая строка
+                #print (i, 'Пустая строка!!!')
                 continue
             csvWriter.writerow(recOut)
 
@@ -299,9 +301,9 @@ def processing(cfgFName):
         #os.system( dealerName + '_converter_xlsx.xlsm')
         convert2csv( cfgFName)
     folderName = os.path.basename(os.getcwd())
-    if os.path.exists( csvFName    ) : shutil.copy2( csvFName ,    'c://AV_PROM/prices/' + folderName +'/'+csvFName )
-    if os.path.exists( 'python.log') : shutil.copy2( 'python.log', 'c://AV_PROM/prices/' + folderName +'/python.log')
-    if os.path.exists( 'python.1'  ) : shutil.copy2( 'python.log', 'c://AV_PROM/prices/' + folderName +'/python.1'  )
+    #if os.path.exists( csvFName    ) : shutil.copy2( csvFName ,    'c://AV_PROM/prices/' + folderName +'/'+csvFName )
+    #if os.path.exists( 'python.log') : shutil.copy2( 'python.log', 'c://AV_PROM/prices/' + folderName +'/python.log')
+    #if os.path.exists( 'python.1'  ) : shutil.copy2( 'python.log', 'c://AV_PROM/prices/' + folderName +'/python.1'  )
 
 
 
