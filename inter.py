@@ -111,16 +111,28 @@ def convert_excel2csv(cfg):
     return
     '''
 
+    brand   = ''
+    grp2    = ''
+    grp1    = ''
+    brand_koeft = 1
     recOut  ={}
     for i in range(1, sheet.max_row +1) :                                # xlsx
 #   for i in range(1, sheet.nrows) :                                     # xls
         i_last = i
         try:
             impValues = getXlsxString(sheet, i, in_cols_j)               # xlsx
-            #impValues = getXlsString(sheet, i, in_cols_j)               # xls
-            #print( impValues )
+            try:
+                if  impValues["grp1"] =="":  impValues["grp1"] = grp1  
+                else: grp1 = impValues["grp1"]
+            except Exception as e:
+                pass
+            try:
+                if  impValues["grp2"] =="":  impValues["grp2"] = grp2     
+                else: grp2    = impValues["grp2"]
+            except Exception as e:
+                pass
             if (impValues['цена1']=='0' and 
-                (impValues['код_'] == '' or impValues['код_'] == 'Арт.')) :  # Пустая строка
+                (impValues['код_'] in ('','model',"артикул","sku"))) :  # Пустая строка
                 continue
             else :                                                       # Обычная строка
                 for outColName in out_template.keys() :
