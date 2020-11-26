@@ -375,11 +375,11 @@ def processing(cfgFName):
     cfg = config_read(cfgFName)
 
     rc_download = False
-    if cfg.has_section('download'):
-        rc_download = download(cfg)
-        filename_new = cfg.get('download','filename_new')
-    if not(rc_download==True or is_file_fresh( filename_new, int(cfg.get('basic','срок годности')))):
-        return False
+#    if cfg.has_section('download'):
+#        rc_download = download(cfg)
+#        filename_new = cfg.get('download','filename_new')
+#    if not(rc_download==True or is_file_fresh( filename_new, int(cfg.get('basic','срок годности')))):
+#        return False
     filename_out = cfg.get('basic','filename_out')
     filename_in  = cfg.get('basic','filename_in')
     
