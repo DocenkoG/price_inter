@@ -132,7 +132,7 @@ def convert_excel2csv(cfg):
             except Exception as e:
                 pass
             if (impValues['цена1']=='0' and 
-                (impValues['код_'] in ('','model',"артикул","sku"))) :  # Пустая строка
+                (impValues['код_'][0:5] in ('','MODEL','Model',"Артик"))) :  # Пустая строка
                 continue
             else :                                                       # Обычная строка
                 for outColName in out_template.keys() :
@@ -256,12 +256,11 @@ def download( cfg ):
         
         driver.get(url_lk)
         driver.find_element(By.LINK_TEXT, "Партнерам").click()
-        driver.find_element(By.CSS_SELECTOR, ".button > span").click()
-        driver.find_element(By.ID, "pwbox-446").click()
-        driver.find_element(By.ID, "pwbox-446").send_keys(password)
+        driver.find_element(By.CSS_SELECTOR, ".secondary > span").click()
+        driver.find_element(By.ID, "pwbox-6661").click()
+        driver.find_element(By.ID, "pwbox-6661").send_keys(password)
         driver.find_element(By.NAME, "Submit").click()
-        driver.get(r'https://inter.ru/склад/документы/')
-        driver.find_element(By.CSS_SELECTOR, "ul:nth-child(2) > li:nth-child(" + doc_num + ") > a").click()
+        driver.find_element(By.CSS_SELECTOR, "li:nth-child(" + doc_num + ") > h4 > a").click()
         time.sleep(1)
         driver.quit()
 
