@@ -176,7 +176,7 @@ def download( cfg ):
     login       = cfg.get('download','login'    )
     password    = cfg.get('download','password' )
     url_lk      = cfg.get('download','url_lk'   )
-    doc_num     = cfg.get('download','doc_num' )
+    link_text   = cfg.get('download','link_text')
 
     download_path= os.path.join(os.getcwd(), 'tmp')
     if not os.path.exists(download_path):
@@ -260,7 +260,7 @@ def download( cfg ):
         driver.find_element(By.ID, "pwbox-6661").click()
         driver.find_element(By.ID, "pwbox-6661").send_keys(password)
         driver.find_element(By.NAME, "Submit").click()
-        driver.find_element(By.CSS_SELECTOR, "li:nth-child(" + doc_num + ") > h4 > a").click()
+        driver.find_element(By.LINK_TEXT, link_text).click()
         time.sleep(1)
         driver.quit()
 
