@@ -11,7 +11,7 @@ import openpyxl                      # Для .xlsx
 #import xlrd                          # для .xls
 from   price_tools import getCellXlsx, getCell, quoted, dump_cell, currencyType, openX, sheetByName
 import csv
-import requests, lxml.html
+import requests #, lxml.html
 
 
 
@@ -248,19 +248,27 @@ def download( cfg ):
                 ",application/xv+xml" +
                 ",application/excel")
         if os.name == 'posix':
-            #driver = webdriver.Firefox(ffprofile, executable_path=r'/usr/local/Cellar/geckodriver/0.19.1/bin/geckodriver')
-            driver = webdriver.Firefox(ffprofile, executable_path=r'/usr/local/bin/geckodriver')
+            ffoptions = webdriver.FirefoxOptions()
+            ffoptions.set_preference("browser.download.folderList", 2)
+            ffoptions.set_preference("browser.download.dir", download_path)
+            ffoptions.set_preference("browser.helperApps.neverAsk.saveToDisk", "text/csv")
+            driver = webdriver.Firefox(options=ffoptions)
         elif os.name == 'nt':
             driver = webdriver.Firefox(ffprofile)
         driver.implicitly_wait(30)
-        
+
         driver.get(url_lk)
-        driver.find_element(By.LINK_TEXT, "Партнерам").click()
-        driver.find_element(By.CSS_SELECTOR, ".secondary > span").click()
-        driver.find_element(By.ID, "pwbox-6661").click()
-        driver.find_element(By.ID, "pwbox-6661").send_keys(password)
-        driver.find_element(By.NAME, "Submit").click()
-        driver.find_element(By.LINK_TEXT, link_text).click()
+        driver.find_element(By.LINK_TEXT, "авторизоваться").click()
+        driver.find_element(By.ID, "USER_LOGIN_POPUP").send_keys(login)
+        driver.find_element(By.ID, "USER_PASSWORD_POPUP").send_keys(password)
+        element = driver.find_element(By.NAME, "Login1")
+        driver.execute_script("arguments[0].click();", element)
+        element = driver.find_element(By.XPATH, "//h2[contains(.,\'Файлы для партнеров\')]")
+        driver.execute_script("arguments[0].click();", element)
+
+        element = driver.find_element(By.LINK_TEXT, link_text)
+        driver.execute_script("arguments[0].click();", element)
+
         time.sleep(1)
         driver.quit()
 
