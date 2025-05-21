@@ -263,13 +263,16 @@ def download( cfg ):
         driver.find_element(By.ID, "USER_PASSWORD_POPUP").send_keys(password)
         element = driver.find_element(By.NAME, "Login1")
         driver.execute_script("arguments[0].click();", element)
+        time.sleep(3)
         element = driver.find_element(By.XPATH, "//h2[contains(.,\'Файлы для партнеров\')]")
+        time.sleep(3)
         driver.execute_script("arguments[0].click();", element)
-
+        time.sleep(3)
         element = driver.find_element(By.LINK_TEXT, link_text)
+        time.sleep(3)
         driver.execute_script("arguments[0].click();", element)
 
-        time.sleep(1)
+        time.sleep(3)
         driver.quit()
 
     except Exception as e:
